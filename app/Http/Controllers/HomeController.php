@@ -31,9 +31,9 @@ class HomeController extends Controller
     {
         $msg = 'Registro salvo/calculado com sucesso';
         $calc = $this->calculo($request->data);
-        $code = 200;
+        $code = 201;
         $res = [];
-        // dd($calc);
+
         if ($calc['ok']) {
             $registro = new Registro();
 
@@ -43,10 +43,12 @@ class HomeController extends Controller
             $registro->result = $calc['calculo'];
             $registro->bonus = 123;
 
-            $res = $registro->save();
+            if ($registro->save()) {
+                $res['registro'] = $registro;
+            }
         } else {
             $msg = $calc['msg'];
-            $code = 500;
+            $code = 200;
         }
 
         return $this->customResponse($res, $msg, $code);
@@ -109,7 +111,7 @@ class HomeController extends Controller
     public function list()
     {
         $registro = new Registro();
-        $dados[''] = $registro->get();
-        return view('list', compact('ip'));
+        $dados = $registro->paginate(15);
+        return view('list', compact('dados'));
     }
 }

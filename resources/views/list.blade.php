@@ -4,14 +4,7 @@
 
     <div class="container">
 
-        <div class="row" style="padding-bottom: 10%">
-            <div class="col-6 ">
-                <h4>Calculadora</h4>
-            </div>
-            <div class="col-6 text-right">
-                <?= $ip ?>
-            </div>
-        </div>
+
 
         <div class="row">
             <div class="col">

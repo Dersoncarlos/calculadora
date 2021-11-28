@@ -23,17 +23,17 @@
             <div class="card-body">
         <div class="row" style="padding-bottom: 2%">
             <div class="col">
-                <button type="button" class="btn btn-outline-warning btn-block limpar">LIMPAR</button>
+                <button type="button" class="btn btn-warning btn-block limpar">LIMPAR</button>
             </div>
         </div>
         {{-- <hr/> --}}
         <div class="row">
             <div class="col-6">
-                <button type="button" class="btn btn-outline-warning btn-block number operador" value="%">MOD</button>
+                <button type="button" class="btn btn-warning btn-block number operador" value="%">MOD</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-outline-warning btn-block number operador" value="/">
-                    dividir
+                <button type="button" class="btn btn-warning btn-block number operador" value="/">
+                    DIVIDIR
                 </button>
             </div>
         </div>
@@ -88,7 +88,7 @@
                 <button type="button" class="btn btn-secondary btn-block number" value="0">0</button>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value=",">,</button>
+                <button type="button" class="btn btn-secondary btn-block number" value=".">,</button>
             </div>
             <div class="col">
                 <button type="button" class="btn btn-warning btn-block" id="calcular">=</button>

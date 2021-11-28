@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::post('/', 'HomeController@calculator')->name('calculator');
+Route::get('/list', 'HomeController@list')->name('list');
