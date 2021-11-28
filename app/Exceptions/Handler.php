@@ -4,9 +4,16 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use BadMethodCallException;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
+    use \App\Traits\ApiResponser;
     /**
      * A list of the exception types that are not reported.
      *
@@ -50,6 +57,31 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+
+        if ($exception instanceof ModelNotFoundException) {
+            return $this->errorResponse("Registro para " . str_replace('App\\', '', $exception->getModel()) . " Não foi encontrado", 404);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return $this->errorResponse('O método especificado para a requisição é inválido', 405);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return $this->errorResponse('O URL especificado não pode ser encontrado', 404);
+        }
+
+        if ($exception instanceof HttpException) {
+            return $this->errorResponse($exception->getMessage(), $exception->getStatusCode());
+        }
+
+        if ($exception instanceof BadMethodCallException) {
+            return $this->errorResponse($exception->getMessage(), 500);
+        }
+
+        if (config('app.debug')) {
+            return parent::render($request, $exception);
+        }
+
+        return $this->errorResponse('Ocorreu um erro, tente mais tarde.', 500);
     }
 }
