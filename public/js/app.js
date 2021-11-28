@@ -19381,20 +19381,24 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 $(document).ready(function () {
+  var operadores = ['+', '-', '*', '/', '%'];
   $('.limpar').click(function () {
     $("#dadosCalculo").text('');
   });
   $('.number').click(function () {
-    // var op = $("#dadosCalculo").text().trim();
     var entrada = $(this);
-    var expressao = $("#dadosCalculo").text().trim();
 
-    if ($("#operador").text().length > 0) {
-      if (entrada.hasClass("operador")) {}
+    if ($("#dadosCalculo").text().trim().length > 0) {
+      if (entrada.hasClass("operador")) {
+        var ultimoDadoInserido = $("#dadosCalculo").text().trim().substr($("#dadosCalculo").text().trim().length - 1, 1);
+
+        if (inArray(ultimoDadoInserido, operadores)) {
+          $("#dadosCalculo").html($("#dadosCalculo").text().trim().substring(0, $("#dadosCalculo").text().trim().length - 1));
+        }
+      }
     }
 
     $("#dadosCalculo").append(entrada.val());
-    console.log('last', $("#dadosCalculo").text().trim().slice());
   });
   $('#calcular').click(function () {
     var expresso = $("#dadosCalculo").text().trim();
@@ -19417,6 +19421,16 @@ $(document).ready(function () {
       console.log('error', error);
     });
   });
+
+  function inArray(needle, haystack) {
+    var length = haystack.length;
+
+    for (var i = 0; i < length; i++) {
+      if (haystack[i] == needle) return true;
+    }
+
+    return false;
+  }
 });
 
 /***/ }),
