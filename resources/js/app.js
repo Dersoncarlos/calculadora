@@ -1,29 +1,29 @@
 require('./bootstrap');
 
 $(document).ready(function () {
+    const operadores = ['+', '-', '*', '/', '%'];
 
     $('.limpar').click(function () {
         $("#dadosCalculo").text('')
     });
 
     $('.number').click(function () {
-        // var op = $("#dadosCalculo").text().trim();
-        var entrada = $(this);
-        var expressao = $("#dadosCalculo").text().trim();
 
-        if ($("#operador").text().length > 0) {
+        var entrada = $(this);
+
+        if ($("#dadosCalculo").text().trim().length > 0) {
 
             if (entrada.hasClass("operador")) {
+                var ultimoDadoInserido = $("#dadosCalculo").text().trim().substr($("#dadosCalculo").text().trim().length - 1, 1);
+
+                if (inArray(ultimoDadoInserido, operadores)) {
+                    $("#dadosCalculo").html($("#dadosCalculo").text().trim().substring(0, $("#dadosCalculo").text().trim().length - 1));
+                }
 
             }
 
         }
-
         $("#dadosCalculo").append(entrada.val());
-
-
-        console.log('last', $("#dadosCalculo").text().trim().slice());
-
 
     });
 
@@ -49,4 +49,12 @@ $(document).ready(function () {
         });
 
     })
+
+    function inArray(needle, haystack) {
+        var length = haystack.length;
+        for (var i = 0; i < length; i++) {
+            if (haystack[i] == needle) return true;
+        }
+        return false;
+    }
 });
