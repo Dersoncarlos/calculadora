@@ -19412,6 +19412,10 @@ $(document).ready(function () {
     }).then(function (response) {
       if (response.status == 201) {
         $("#dadosCalculo").html(response.data.data.registro.result);
+
+        if (response.data.data.registro.bonus == 1) {
+          $("#componetBonus").css('display', 'block');
+        }
       }
 
       if (response.status == 200) {
