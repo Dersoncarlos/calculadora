@@ -41,6 +41,7 @@ class HomeController extends Controller
         $calc = $this->calculo($request->data);
         $code = 201;
         $res = [];
+        $numberBonus = $this->bonus();
 
         if ($calc['ok']) {
             $registro = new Registro();
@@ -49,7 +50,7 @@ class HomeController extends Controller
             $registro->timestamp = time();
             $registro->operation = $calc['expressao'];
             $registro->result = $calc['calculo'];
-            $registro->bonus = 123;
+            $registro->bonus = ($calc['calculo'] == $numberBonus) ? 1 : 0;
 
             if ($registro->save()) {
                 $res['registro'] = $registro;
@@ -123,6 +124,15 @@ class HomeController extends Controller
         return $valor;
     }
 
+    /**
+     * Bonus number generator
+     *
+     * @return void
+     */
+    protected function bonus()
+    {
+        return rand(0, 999999);
+    }
     /**
      * Displays a list of operations registered in the database
      *

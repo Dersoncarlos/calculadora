@@ -1,93 +1,60 @@
-@extends('welcome')
+@if (count($dados) > 0)
 
-@section('content')
+    <h3 class="text-center" style="margin: 30px 0;">Registros</h3>
 
-    <div class="container">
+    @foreach ($dados as $index => $registros)
+        <div id="" class="box boxRegistros">
+            <div class="box-header with-border">
+                <h3 class="box-title" style="margin-top: 10px;">{{ $index }}</h3>
+                <div class="box-tools pull-right">
+                    <button id="" type="button" class="btn btn-box-tool buttonRegistros" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
 
+            <div class="box-body">
+                @foreach ($registros as $index => $data)
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <h3>{{ $index }}</h3>
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width: 20%;">Horário</th>
+                                    <th class="text-center" style="width: 35%;">Terminal</th>
+                                    <th class="text-center" style="width: 35%;">Código</th>
+                                    <th class="text-center" style="width: 10%">Localização</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $i => $dado)
+                                    <tr>
+                                        <td class="text-center">{{ date('H:i', strtotime($dado->data)) }}</td>
+                                        <td class="text-center">
+                                            {{ !empty($dado->terminalNome) ? $dado->terminalNome : 'Sem terminal' }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ !empty($dado->codigo) ? $dado->codigo : 'Ponto sem QRCode' }}
+                                        </td>
 
+                                    </tr>
+                                @endforeach
 
-        <div class="row">
-            <div class="col">
-                <div id='dadosCalculo' style="background-color: #8080801a; padding-bottom: 5%">&nbsp;&nbsp;</div>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-default pull-right">Imprimir</button>
+                    </div>
+                @endforeach
             </div>
         </div>
-        <hr/>
-        <div class="card">
-            <div class="card-body">
-        <div class="row" style="padding-bottom: 2%">
-            <div class="col">
-                <button type="button" class="btn btn-outline-warning btn-block limpar">LIMPAR</button>
-            </div>
-        </div>
-        {{-- <hr/> --}}
-        <div class="row">
-            <div class="col-6">
-                <button type="button" class="btn btn-outline-warning btn-block number operador" value="%">MOD</button>
-            </div>
-            <div class="col-6">
-                <button type="button" class="btn btn-outline-warning btn-block number operador" value="/">
-                    dividir
-                </button>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="7">7</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="8">8</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="9">9</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-warning btn-block number operador" value="*"> Multiplicar </button>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="4">4</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="5">5</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="6">6</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-warning btn-block number operador" value="-"> Subtratir </button>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="1">1</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="2">2</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value="3">3</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-warning btn-block number operador" value="+">Somar</button>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-6">
-                <button type="button" class="btn btn-secondary btn-block number" value="0">0</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-secondary btn-block number" value=",">,</button>
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-warning btn-block" id="calcular">=</button>
-            </div>
-        </div>
+    @endforeach
+
+    <div class="box-footer text-center">
+        @if (!$dados->links() == null)
+            {{ $dados->links() }}
+        @endif
     </div>
-        </div>
-    </div>
-@stop
+
+@else
+    <div class="alert alert-danger ">Não há registros para o período selecionado.</div>
+@endif
