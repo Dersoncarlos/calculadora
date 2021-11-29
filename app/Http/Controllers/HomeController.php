@@ -17,9 +17,10 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Index the application
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param  mixed $request
+     * @return void
      */
     public function index(Request $request)
     {
@@ -27,6 +28,13 @@ class HomeController extends Controller
         return view('index', compact('ip'));
     }
 
+
+    /**
+     * Method responsible for validating, calculating and saving the operation
+     *
+     * @param  mixed $request
+     * @return json
+     */
     public function calculator(Request $request)
     {
         $msg = 'Registro salvo/calculado com sucesso';
@@ -54,8 +62,15 @@ class HomeController extends Controller
         return $this->customResponse($res, $msg, $code);
     }
 
+    /**
+     * Method responsible for the calculation
+     *
+     * @param  mixed $string
+     * @return void
+     */
     protected function calculo($string)
     {
+
         $formmated = preg_split('~(?<=\d)([*%/+-])~', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
         $valor['expressao'] = '';
         $valor['calculo'] = 0;
@@ -108,10 +123,16 @@ class HomeController extends Controller
         return $valor;
     }
 
+    /**
+     * Displays a list of operations registered in the database
+     *
+     * @param  mixed $string
+     * @return void
+     */
     public function list()
     {
         $registro = new Registro();
-        $dados = $registro->paginate(15);
+        $dados = $registro->get();
         return view('list', compact('dados'));
     }
 }
